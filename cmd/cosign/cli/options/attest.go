@@ -29,6 +29,7 @@ type AttestOptions struct {
 	Replace          bool
 	SkipConfirmation bool
 	TlogUpload       bool
+	Annotations      map[string]string
 
 	Rekor       RekorOptions
 	Fulcio      FulcioOptions
@@ -78,4 +79,7 @@ func (o *AttestOptions) AddFlags(cmd *cobra.Command) {
 
 	cmd.Flags().BoolVar(&o.TlogUpload, "tlog-upload", false,
 		"whether or not to upload to the tlog")
+
+	cmd.Flags().StringToStringVarP(&o.Annotations, "annotations", "a", nil,
+		"extra key=value pairs to annotate attestations with")
 }
