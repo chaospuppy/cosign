@@ -165,9 +165,11 @@ func (c *AttestCommand) Exec(ctx context.Context, imageRef string) error {
 		opts = append(opts, static.WithCertChain(sv.Cert, sv.Chain))
 	}
 
-	if len(annotations) != 0 {
-		opts = append(opts, static.WithAnnotations(annotations))
+	predicateTypeAnnotation := map[string]string{
+		"predicateType": predicateType,
 	}
+	// Add predicateType as manifest annotation
+	opts = append(opts, static.WithAnnotations(predicateTypeAnnotation))
 
 	// Check whether we should be uploading to the transparency log
 	if sign.ShouldUploadToTlog(ctx, c.KeyOpts, digest, c.SkipConfirmation, c.TlogUpload) {
